@@ -1,0 +1,6 @@
+AIR = "AIR"
+SPACE = "SPACE"
+ICE = "ICE"
+LAND = "LAND"
+WATER = "WATER"
+FIRE = "FIRE"
