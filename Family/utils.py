@@ -1,10 +1,10 @@
 import sys
-def read_commands(input_file):
+def read_commands(input_file, splitter):
     cmdList = []
     try:
         file = open(input_file, "r")
         for line in file:
-            feilds = line.replace("\n","").split(" ")
+            feilds = line.replace("\n","").split(splitter)
             cmdList.append(feilds)
     except:
         print("Eroor")

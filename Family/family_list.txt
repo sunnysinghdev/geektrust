@@ -1,0 +1,34 @@
+Spouse, King Shan, Queen Anga, Female
+Child, King Shan, Chit, Male
+Spouse, Chit, Amba, Female
+Child, King Shan, Ish, Male
+Child, King Shan, Vich, Male
+Spouse, Vich, Lika, Female
+Child, King Shan, Aras, Male
+Spouse, Aras, Chitra, Female
+Child, King Shan, Satya, Female
+Spouse, Satya, Vyan, Male
+Child, Chit, Dritha, Female
+Spouse, Dritha, Jaya, Male
+Child, Chit, Tritha, Female
+Child, Chit, Vritha, Male
+Child, Dritha, Yodhan, Male
+Child, Vich, Vila, Female
+Child, Vich, Chika, Female
+Child, Aras, Jnki, Female
+Spouse, Jnki, Arit, Male
+Child, Aras, Ahit, Male
+Child, Jnki, Laki, Male
+Child, Jnki, Lavnya, Female
+Child, Satya, Asva, Male
+Spouse, Asva, Satvy, Female
+Child, Satya, Vyas, Male
+Spouse, Vyas, Krpi, Female
+Child, Satya, Atya, Female
+Child, Asva, Vasa, Male
+Child, Vyas, Kriya, Male
+Child, Vyas, Krithi, Female
+
+
+
+

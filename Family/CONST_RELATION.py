@@ -7,5 +7,4 @@ BROTHER_IN_LAW = "Brother-In-Law"
 SON = "Son"
 DAUGHTER = "Daughter"
 SIBLINGS = "Siblings"
-MALE = "Male"
-FEMALE = "Female"
+
