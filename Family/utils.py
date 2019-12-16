@@ -1,4 +1,5 @@
 import sys
+
 def read_commands(input_file, splitter):
     cmdList = []
     try:
@@ -7,7 +8,7 @@ def read_commands(input_file, splitter):
             feilds = line.replace("\n","").split(splitter)
             cmdList.append(feilds)
     except:
-        print("Eroor")
+        pass
     return cmdList
 
 def get_input_file(argv):
@@ -15,3 +16,6 @@ def get_input_file(argv):
         return argv[1]
     return None
 
+def print_list(lines):
+    for line in lines:
+        print(line)
