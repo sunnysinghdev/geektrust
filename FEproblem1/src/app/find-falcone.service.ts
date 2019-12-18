@@ -8,32 +8,42 @@ import { map } from 'rxjs/operators';
 })
 export class FindFalconeService {
 
-  apiUrl = ""
-  token = "random"
+  apiUrl = "";
+  token = "random";
+  planets = [];
+  vehicles = [];
+  test_planet = [
+    "Donlon", 
+    "Enchai", 
+    "Pingasor", 
+    "Sapir"
+  ];
+  test_vehicle = [
+    "Space pod",
+    "Space rocket",
+    "Space Shuttle",
+    "Space Ship"
+  ];
   constructor(private http: HttpClient) {
     this.apiUrl = environment.apiEndpoint;
-    this.getToken()
+    this.getToken();
+    this.getPlanets();
+    this.getVehicles();
   }
   getPlanets() {
-    this.http.get(this.apiUrl + 'planets').subscribe(res => {
-      console.log(res);
-    });
+    return this.http.get(this.apiUrl + 'planets');
   }
   getVehicles() {
-    this.http.get(this.apiUrl + 'vehicles').subscribe(res => {
+    this.http.get(this.apiUrl + 'vehicles').subscribe((res: any) => {
+      this.vehicles = res;
       console.log(res);
     });
   }
-  find() {
+  find(planet_names: string[], vehicle_names: string[]) {
     let body = {}
     body["token"] = this.token
-    body["planet_names"] = ["Donlon", "Enchai", "Pingasor", "Sapir"];
-    body["vehicle_names"] = [
-      "Space pod",
-      "Space rocket",
-      "Space Shuttle",
-      "Space Ship"
-    ];
+    body["planet_names"] = planet_names
+    body["vehicle_names"] = vehicle_names
     console.log(body)
     this.http.post(this.apiUrl + 'find', body, {
       headers: {

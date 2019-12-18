@@ -14,6 +14,6 @@ export class AppComponent {
   findFalcone($event){
     //this.findFalconeService.getPlanets();
     //this.findFalconeService.getVehicles();
-    this.findFalconeService.find();
+    this.findFalconeService.find(this.findFalconeService.test_planet, this.findFalconeService.test_vehicle);
   }
 }

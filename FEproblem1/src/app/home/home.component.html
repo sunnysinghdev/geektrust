@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h3>Select planets you want to search in:</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div *ngFor="let pName of destinationNames" class="col">
+            <app-destination [name]="pName" [(planetState)]="this.planetState" [planets]="this.availablePlanets" [vehicles]="this.service.vehicles"></app-destination>
+        </div>
+        
+        
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <button (click)="findFalcone($event)">Find Falcone</button>
+        </div>
+    </div>
+</div>
