@@ -17,6 +17,7 @@ export class DestinationComponent implements OnInit {
 
 
   _planetState = {
+    name: null,
     current: null,
     previous: null
   }
@@ -45,17 +46,15 @@ export class DestinationComponent implements OnInit {
   }
 
   updateList() {
-    if (this._planetState) {
+    if (this._planetState && this._planetState.name != this.name) {
       this.removeSelectedPlanet(this._planetState.current);
       this.addRemovedPlanet(this._planetState.previous);
     }
-    if(this.selectedVehicle){
-      this.selectedVehicle.total_no--;
-    }
+    
   }
   addRemovedPlanet(planet) {
     if (planet) {
-      if (this.selectedPlanet && planet.name != this.selectedPlanet.name) {
+      if (!this.selectedPlanet || planet.name != this.selectedPlanet.name) {
         this.planets.push(planet);
         this.planets.sort((a, b) => a.distance - b.distance);
       }
@@ -77,12 +76,15 @@ export class DestinationComponent implements OnInit {
         distance: this.selectedPlanet.distance
       }
     }
-
     this.selectedPlanet = $event;
 
-    this.planetStateChange.emit({
-      current: $event,
-      previous: prev
-    });
+    //if(prev && prev.name != $event.name){
+      this.planetStateChange.emit({
+        name: this.name,
+        current: $event,
+        previous: prev
+      });
+    //}
+    
   }
 }

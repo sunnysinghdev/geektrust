@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   destinationNames = ["Destination 1", "Destination 2", "Destination 3", "Destination 4"]
   
   planetState = {
+    name: null,
     current: null,
     previous: null
   }
