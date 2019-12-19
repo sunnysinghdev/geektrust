@@ -6,7 +6,8 @@
     </div>
     <div class="row">
         <div *ngFor="let pName of destinationNames" class="col">
-            <app-destination [name]="pName" [(planetState)]="this.planetState" [planets]="this.availablePlanets" [vehicles]="this.service.vehicles"></app-destination>
+            <app-destination [name]="pName" [(planetState)]="this.planetState" [planets]="this.availablePlanets" 
+            [vehicles]="vehicles"></app-destination>
         </div>
         
         

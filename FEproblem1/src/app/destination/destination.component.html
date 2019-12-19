@@ -14,10 +14,12 @@
 <div class="row">
     <div class="col" *ngIf="selectedPlanet">
         <div *ngFor="let v of vehicles">
-
             <label>
-                <input type="radio"  name="Vehicle" [value]="v" [(ngModel)]="selectedVehicle" /> {{v.name}} {{v.total_no}}
-            </label><br/>
+                <input type="radio"  [name]="vehicleGroup" [value]="v" 
+                [ngModel]="selectedVehicle" (ngModelChange)="onVehicleSelected($event)" />
+                 {{v.name}} ({{ getCount(v.name) }})
+            </label>
+            <br/>
         </div>
 
     </div>

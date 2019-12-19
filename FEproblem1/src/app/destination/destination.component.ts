@@ -8,7 +8,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 export class DestinationComponent implements OnInit {
 
   selectVal = null;
-
+  vehicleGroup = "";
   @Input()
   name = "Destination"
 
@@ -35,16 +35,52 @@ export class DestinationComponent implements OnInit {
   @Output()
   planetStateChange = new EventEmitter();
 
+  _vehicles = []
   @Input()
-  vehicles = []
+  get vehicles() {
+    return this._vehicles;
+  }
+  set vehicles(value) {
+    this._vehicles = value
+    this._vehicles.forEach( v => this.vCountDict[v.name] = v.total_no);
+  }
+
+  _vehicleState
+  @Input()
+  get vehicleState() {
+    return this._vehicleState;
+  }
+  set vehicleState(value) {
+    this._vehicleState = value
+    this.updateVehicleCount()
+    this.vehicleStateChange.emit(value);
+  }
+
+  @Output()
+  vehicleStateChange = new EventEmitter();
 
   selectedPlanet = null
   selectedVehicle = null
+  vCountDict = {}
   constructor() { }
 
   ngOnInit() {
+    this.vehicleGroup = this.name.replace(" ", "");
+    console.log(this.vehicles)
+    //this.vehicles.forEach( v=> this.vCountDict[v.name] = v.total_no);
   }
-
+  getCount(name){
+    if(this.vCountDict[name]){
+      return this.vCountDict[name];
+    }
+    return 0;
+  }
+  updateVehicleCount(){
+    this.vCountDict[this._vehicleState.name] = this._vehicleState.getRemaining()
+  }
+  onVehicleSelected($event){
+    
+  }
   updateList() {
     if (this._planetState && this._planetState.name != this.name) {
       this.removeSelectedPlanet(this._planetState.current);
@@ -76,6 +112,7 @@ export class DestinationComponent implements OnInit {
         distance: this.selectedPlanet.distance
       }
     }
+    this.selectedPlanet = null;
     this.selectedPlanet = $event;
 
     //if(prev && prev.name != $event.name){
