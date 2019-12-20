@@ -87,7 +87,7 @@ export class DestinationComponent implements OnInit {
   refreshVehicleCount(vehicle) {
     if (vehicle) {
       this._vehicles.forEach(v => {
-        if (!this.selectedVehicle || this.selectedVehicle.name != vehicle.name) {
+        if (!this.selectedVehicle || this.selectedVehicle.name != v.name) {
           this.vCountDict[v.name] = v.getRemainingCount();
         }
       });

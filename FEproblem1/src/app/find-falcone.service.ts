@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
@@ -26,9 +26,6 @@ export class FindFalconeService {
   ];
   constructor(private http: HttpClient) {
     this.apiUrl = environment.apiEndpoint;
-    this.getToken();
-    this.getPlanets();
-    this.getVehicles();
   }
   getPlanets() {
     return this.http.get(this.apiUrl + 'planets');
@@ -37,26 +34,29 @@ export class FindFalconeService {
     return this.http.get(this.apiUrl + 'vehicles');
   }
   find(planet_names: string[], vehicle_names: string[]) {
-    let body = {}
-    body["token"] = this.token
-    body["planet_names"] = planet_names
-    body["vehicle_names"] = vehicle_names
-    console.log(body)
-    this.http.post(this.apiUrl + 'find', body, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }
-    ).subscribe(res => {
-      console.log(res);
+    const resultObserver =  new Observable(observable =>{
+      let body = {}
+      body["planet_names"] = planet_names
+      body["vehicle_names"] = vehicle_names
+      console.log(body)
+      this.getToken().subscribe((res: any) => {
+        console.log(res);
+        body["token"] = res.token;
+        this.http.post(this.apiUrl + 'find', body, {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }).subscribe( (res:any)=>{
+          observable.next(res);
+        });
+      });
     });
+    return resultObserver;   
+    
   }
   getToken() {
-    this.http.post(this.apiUrl + 'token', '', { headers: { 'Accept': 'application/json' } }).subscribe((res: any) => {
-      console.log(res);
-      this.token = res.token;
-    });
+    return this.http.post(this.apiUrl + 'token', '', { headers: { 'Accept': 'application/json' } });
   }
 }
 export const vehileList = [

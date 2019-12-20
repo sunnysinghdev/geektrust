@@ -44,11 +44,27 @@ export class HomeComponent implements OnInit {
     //this.service.planets.forEach(item => this.availablePlanets.push(item));
   }
   findFalcone($event) {
+    let planet_names = [];
+    let vehicle_names = [];
     if (this.destinationsComp && this.destinationsComp.length > 0) {
       this.destinationsComp.forEach(comp => {
-        console.log(comp.selectedPlanet.name);
+        if (comp.selectedPlanet) {
+          planet_names.push(comp.selectedPlanet.name);
+        }
+        if (comp.selectedVehicle) {
+          vehicle_names.push(comp.selectedVehicle.name);
+        }
       });
     }
+    this.service.find(planet_names, vehicle_names).subscribe((res: any) => {
+      console.log(res);
+      if (res.error) {
+
+      }
+      else if (res.status == "success") {
+
+      }
+    });
   }
   planetStateChange($event) {
     this.disableFindButton = true;
