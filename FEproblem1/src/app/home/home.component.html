@@ -6,15 +6,19 @@
     </div>
     <div class="row">
         <div *ngFor="let pName of destinationNames" class="col">
-            <app-destination [name]="pName" [(planetState)]="this.planetState" [planets]="this.availablePlanets" 
-            [vehicles]="vehicles"></app-destination>
+            <app-destination [name]="pName" 
+                [planets]="availablePlanets" [planetState]="planetState" (planetStateChange)="planetStateChange($event)"  
+                [vehicles]="vehicles" [vehicleState]="vehicleState" (vehicleStateChange)="vehicleStateChange($event)">
+            </app-destination>
         </div>
-        
+        <div class="col">
+            <h3>Time Taken: {{timeTaken}}</h3>
+        </div>
         
     </div>
     <div class="row">
         <div class="col text-center">
-            <button (click)="findFalcone($event)">Find Falcone</button>
+            <button [disabled]="disableFindButton" (click)="findFalcone($event)">Find Falcone</button>
         </div>
     </div>
 </div>

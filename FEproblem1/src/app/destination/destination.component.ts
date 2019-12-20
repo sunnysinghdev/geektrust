@@ -42,10 +42,13 @@ export class DestinationComponent implements OnInit {
   }
   set vehicles(value) {
     this._vehicles = value
-    this._vehicles.forEach( v => this.vCountDict[v.name] = v.total_no);
+    this._vehicles.forEach(v => this.vCountDict[v.name] = v.total_no);
   }
 
-  _vehicleState
+  _vehicleState = {
+    name: "",
+    vehicle: null
+  }
   @Input()
   get vehicleState() {
     return this._vehicleState;
@@ -69,24 +72,48 @@ export class DestinationComponent implements OnInit {
     console.log(this.vehicles)
     //this.vehicles.forEach( v=> this.vCountDict[v.name] = v.total_no);
   }
-  getCount(name){
-    if(this.vCountDict[name]){
+  getCount(name) {
+    if (this.vCountDict[name]) {
       return this.vCountDict[name];
     }
     return 0;
   }
-  updateVehicleCount(){
-    this.vCountDict[this._vehicleState.name] = this._vehicleState.getRemaining()
+  updateVehicleCount() {
+    if (this.name != this._vehicleState.name) {
+      if (this._vehicleState)
+        this.refreshVehicleCount(this._vehicleState.vehicle);
+    }
   }
-  onVehicleSelected($event){
-    
+  refreshVehicleCount(vehicle) {
+    if (vehicle) {
+      this._vehicles.forEach(v => {
+        if (!this.selectedVehicle || this.selectedVehicle.name != vehicle.name) {
+          this.vCountDict[v.name] = v.getRemainingCount();
+        }
+      });
+    }
+  }
+  onVehicleSelected($event) {
+    if (this.selectedVehicle) {
+      this.selectedVehicle.unUse();
+      this.vCountDict[this.selectedVehicle.name] = this.selectedVehicle.getRemainingCount()
+    }
+    if ($event) {
+      this.selectedVehicle = $event;
+      this.selectedVehicle.use();
+      this.vCountDict[this.selectedVehicle.name] = this.selectedVehicle.getRemainingCount()
+    }
+    this.vehicleStateChange.emit({ name: this.name, vehicle: this.selectedVehicle });
+    this.selectedVehicle = $event;
+
+
   }
   updateList() {
     if (this._planetState && this._planetState.name != this.name) {
       this.removeSelectedPlanet(this._planetState.current);
       this.addRemovedPlanet(this._planetState.previous);
     }
-    
+
   }
   addRemovedPlanet(planet) {
     if (planet) {
@@ -116,12 +143,13 @@ export class DestinationComponent implements OnInit {
     this.selectedPlanet = $event;
 
     //if(prev && prev.name != $event.name){
-      this.planetStateChange.emit({
-        name: this.name,
-        current: $event,
-        previous: prev
-      });
+    this.planetStateChange.emit({
+      name: this.name,
+      current: $event,
+      previous: prev
+    });
+    this.onVehicleSelected(null)
     //}
-    
+
   }
 }

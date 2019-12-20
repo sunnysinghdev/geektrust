@@ -16,6 +16,7 @@
         <div *ngFor="let v of vehicles">
             <label>
                 <input type="radio"  [name]="vehicleGroup" [value]="v" 
+                [disabled]="v.max_distance < selectedPlanet.distance ||((!selectedVehicle || selectedVehicle.name != v.name) && v.getRemainingCount() < 1)"
                 [ngModel]="selectedVehicle" (ngModelChange)="onVehicleSelected($event)" />
                  {{v.name}} ({{ getCount(v.name) }})
             </label>
