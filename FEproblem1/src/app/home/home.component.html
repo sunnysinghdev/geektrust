@@ -1,24 +1,30 @@
-<div class="container">
+
     <div class="row">
         <div class="col">
             <h3>Select planets you want to search in:</h3>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="min-height: 400pxx;">
         <div *ngFor="let pName of destinationNames" class="col">
-            <app-destination [name]="pName" 
-                [planets]="availablePlanets" [planetState]="planetState" (planetStateChange)="planetStateChange($event)"  
-                [vehicles]="vehicles" [vehicleState]="vehicleState" (vehicleStateChange)="vehicleStateChange($event)">
-            </app-destination>
+            <div style="min-height:250px; min-width: 150px;">
+                <app-destination [name]="pName" [planets]="availablePlanets" [planetState]="planetState"
+                    (planetStateChange)="planetStateChange($event)" [vehicles]="vehicles" [vehicleState]="vehicleState"
+                    (vehicleStateChange)="vehicleStateChange($event)">
+                </app-destination>
+            </div>
         </div>
         <div class="col">
-            <h3>Time Taken: {{timeTaken}}</h3>
+            <div style="min-width: 150px;">
+                <label></label>
+                <h4>Time Taken: {{timeTaken}}</h4>
+            </div>
+
         </div>
-        
+
     </div>
     <div class="row">
         <div class="col text-center">
-            <button [disabled]="disableFindButton" (click)="findFalcone($event)">Find Falcone</button>
+            <button class="btn btn-outline-primary" [disabled]="disableFindButton" (click)="findFalcone($event)">Find
+                Falcone</button>
         </div>
     </div>
-</div>

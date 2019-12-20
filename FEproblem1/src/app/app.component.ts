@@ -11,9 +11,4 @@ export class AppComponent {
   constructor(private findFalconeService: FindFalconeService){
 
   }
-  findFalcone($event){
-    //this.findFalconeService.getPlanets();
-    //this.findFalconeService.getVehicles();
-    this.findFalconeService.find(this.findFalconeService.test_planet, this.findFalconeService.test_vehicle);
-  }
 }

@@ -10,20 +10,7 @@ export class FindFalconeService {
 
   apiUrl = "";
   token = "random";
-  planets = [];
-  vehicles = [];
-  test_planet = [
-    "Donlon", 
-    "Enchai", 
-    "Pingasor", 
-    "Sapir"
-  ];
-  test_vehicle = [
-    "Space pod",
-    "Space rocket",
-    "Space Shuttle",
-    "Space Ship"
-  ];
+  
   constructor(private http: HttpClient) {
     this.apiUrl = environment.apiEndpoint;
   }
@@ -59,6 +46,20 @@ export class FindFalconeService {
     return this.http.post(this.apiUrl + 'token', '', { headers: { 'Accept': 'application/json' } });
   }
 }
+//------------test data--------------------
+
+export const test_planet = [
+  "Donlon", 
+  "Enchai", 
+  "Pingasor", 
+  "Sapir"
+];
+export const test_vehicle = [
+  "Space pod",
+  "Space rocket",
+  "Space Shuttle",
+  "Space Ship"
+];
 export const vehileList = [
   {
       name:"Space Pod",

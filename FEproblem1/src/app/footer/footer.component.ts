@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
+  content = 'Coding problem - <a target="_blank" href="https://www.geektrust.in/coding-problem/frontend/space">https://www.geektrust.in/finding-falcone</a> '
   constructor() { }
 
   ngOnInit() {

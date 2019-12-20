@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { FindFalconeService } from '../find-falcone.service';
 import { DestinationComponent } from '../destination/destination.component';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -25,11 +26,12 @@ export class HomeComponent implements OnInit {
   @ViewChildren(DestinationComponent) destinationsComp: QueryList<DestinationComponent>;
   timeTaken: number;
   disableFindButton = true;
-  constructor(public service: FindFalconeService) {
+  TYPE_VEHICLE = "Vehicle";
+  TYPE_PLANET = "Planet";
+  constructor(public service: FindFalconeService, public router: Router) {
   }
 
   ngOnInit() {
-    console.log(this.service.planets)
     this.service.getPlanets().subscribe((res: any) => {
       console.log(res);
       this.availablePlanets = res;
@@ -44,27 +46,32 @@ export class HomeComponent implements OnInit {
     //this.service.planets.forEach(item => this.availablePlanets.push(item));
   }
   findFalcone($event) {
-    let planet_names = [];
-    let vehicle_names = [];
-    if (this.destinationsComp && this.destinationsComp.length > 0) {
-      this.destinationsComp.forEach(comp => {
-        if (comp.selectedPlanet) {
-          planet_names.push(comp.selectedPlanet.name);
-        }
-        if (comp.selectedVehicle) {
-          vehicle_names.push(comp.selectedVehicle.name);
-        }
-      });
-    }
+    let planet_names = this.getNames(this.TYPE_PLANET);
+    let vehicle_names = this.getNames(this.TYPE_VEHICLE);
+    
     this.service.find(planet_names, vehicle_names).subscribe((res: any) => {
       console.log(res);
-      if (res.error) {
-
+      
+      if (res.status) {
+        this.router.navigate(['/result'], res);
       }
       else if (res.status == "success") {
 
       }
     });
+  }
+  
+  getNames(nameType){
+    let list = []
+    if (this.destinationsComp && this.destinationsComp.length > 0) {
+      this.destinationsComp.forEach(comp => {
+        let obj = nameType == this.TYPE_PLANET ? comp.selectedPlanet : comp.selectedVehicle;
+        if (obj) {
+          list.push(comp.selectedPlanet.name);
+        }
+      });
+    }
+    return list;
   }
   planetStateChange($event) {
     this.disableFindButton = true;
