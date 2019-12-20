@@ -1,1 +1,12 @@
-<p>result works!</p>
+<div class="row">
+    <div class="col text-center">
+        <h3>{{displayMsg}}</h3>
+        <br>
+        <div *ngIf="success">
+            <h4>Time taken: {{ time_taken }}</h4>
+            <h4>Planet found: {{ planet_name }}</h4>
+            <br>
+        </div>
+        <button (click)="startAgain($event)" class="btn btn-outline-primary">Start Again</button>
+    </div>
+</div>

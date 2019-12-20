@@ -53,7 +53,8 @@ export class HomeComponent implements OnInit {
       console.log(res);
       
       if (res.status) {
-        this.router.navigate(['/result'], res);
+        res['time_taken'] = this.timeTaken;
+        this.router.navigate(['/result'], { queryParams: res});
       }
       else if (res.status == "success") {
 
