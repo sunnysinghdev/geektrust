@@ -9,7 +9,14 @@
             <div style="min-height:250px; min-width: 150px;">
                 <app-destination [name]="pName" [planets]="availablePlanets" [planetState]="planetState"
                     (planetStateChange)="planetStateChange($event)" [vehicles]="vehicles" [vehicleState]="vehicleState"
-                    (vehicleStateChange)="vehicleStateChange($event)">
+                    (vehicleStateChange)="vehicleStateChange($event)" [footerTemplate]="footerTemp">
+                    
+                    <ng-template #footerTemp>
+                        <p class="small">sunnysinghdev</p>
+                    </ng-template>
+                        <p>.com</p>
+
+                    
                 </app-destination>
             </div>
         </div>
@@ -28,3 +35,4 @@
                 Falcone</button>
         </div>
     </div>
+    

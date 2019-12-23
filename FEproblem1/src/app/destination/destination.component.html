@@ -26,3 +26,7 @@
 
     </div>
 </div>
+<ng-container *ngTemplateOutlet="footerTemplate? footerTemplate :  defaultItem" ></ng-container>
+<ng-container *ngTemplateOutlet="footerTemp"></ng-container>
+<ng-template #defaultItem><p class="small">sunnysinghdev</p></ng-template>
+<ng-content></ng-content>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
-import { FindFalconeService } from '../find-falcone.service';
+import { FindFalconeService, planetList, vehileList } from '../find-falcone.service';
 import { DestinationComponent } from '../destination/destination.component';
-import { Route, Router } from '@angular/router';
+import { Route, Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +9,7 @@ import { Route, Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  //service: any
+  
   availablePlanets = []
   vehicles = []
   destinationNames = ["Destination 1", "Destination 2", "Destination 3", "Destination 4"]
@@ -23,28 +23,47 @@ export class HomeComponent implements OnInit {
     name: null,
     vehicle: null
   }
+
   @ViewChildren(DestinationComponent) destinationsComp: QueryList<DestinationComponent>;
+  
   timeTaken: number;
   disableFindButton = true;
   TYPE_VEHICLE = "Vehicle";
   TYPE_PLANET = "Planet";
-  constructor(public service: FindFalconeService, public router: Router) {
+  
+  constructor(public service: FindFalconeService, public router: Router, public route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.service.getPlanets().subscribe((res: any) => {
-      console.log(res);
-      this.availablePlanets = res;
-      //res.forEach(item => this.model.planets.push(item))
-    });
-    this.service.getVehicles().subscribe((res: any) => {
-      let list = []
-      res.forEach(v => list.push(new Vehicle(v)));
-      this.vehicles = list
-      console.log(res);
-    });
-    //this.service.planets.forEach(item => this.availablePlanets.push(item));
+    let data = this.route.snapshot.data['home']
+    // this.service.getPlanets().subscribe((res: any) => {
+    //   this.availablePlanets = res;
+    // },
+    // error => {
+    //   this.availablePlanets = planetList;
+    // }
+    //   );
+    // this.service.getVehicles().subscribe((res: any) => {
+    //   this.initVehiclleList(res)
+    // },
+    // error=>{
+    //   this.initVehiclleList(vehileList);
+    // });
+    this.initList(data);
   }
+  initList(data){
+
+    //this.service.getPlanetsAndVehicles().subscribe((res:any)=>{
+      this.availablePlanets = data.planets;
+      this.initVehiclleList(data.vehicles);
+    //})
+  }
+  initVehiclleList(res){
+    let list = []
+    res.forEach(v => list.push(new Vehicle(v)));
+    this.vehicles = list
+  }
+  
   findFalcone($event) {
     let planet_names = this.getNames(this.TYPE_PLANET);
     let vehicle_names = this.getNames(this.TYPE_VEHICLE);

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-destination',
@@ -9,6 +9,9 @@ export class DestinationComponent implements OnInit {
 
   selectVal = null;
   vehicleGroup = "";
+  @Input()
+  footerTemplate: TemplateRef<any>;
+
   @Input()
   name = "Destination"
 

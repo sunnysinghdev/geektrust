@@ -1,3 +1,9 @@
+<!-- <span *ngIf="loading" class="glyphicon glyphicon-refresh glyphicon-spin spinner">hrr</span> -->
+<div *ngIf="loading" class="page-spinner">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
 <app-header></app-header>
 <div class="container" style="min-height: 70vh;">
     <router-outlet></router-outlet>
