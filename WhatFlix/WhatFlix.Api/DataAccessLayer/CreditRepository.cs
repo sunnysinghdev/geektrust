@@ -15,12 +15,17 @@ using System.Data.Entity;
 
 namespace WhatFlix.DataAccessLayer
 {
-    public class MovieRepository : Repository<Movie>, IMovieRepositry
+    public class CreditRepository : Repository<Credit>, ICreditRepository
     {
         MovieContext _context;
-        public MovieRepository(MovieContext context):base(context)
+        public CreditRepository(MovieContext context):base(context)
         {
             _context = context;
+        }
+
+        public IEnumerable<Credit> GetByActor(string text)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Movie> GetByTitle(string text)

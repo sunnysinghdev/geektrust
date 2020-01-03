@@ -39,6 +39,8 @@ namespace WhatFlix.Api.Model
 
         //Actor 
         public List<Cast> Casts = new List<Cast>();
+        public string ActorName {get; set;}
+        public string DirectorName {get; set;}
     }
     public class CreditParse
     {

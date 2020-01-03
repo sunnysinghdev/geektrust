@@ -10,6 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.InMemory;
+using FileContextCore;
+using WhatFlix.DataAccessLayer;
+using WhatFlix.Common;
 
 namespace WhatFlix.Api
 {
@@ -26,6 +31,13 @@ namespace WhatFlix.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContextPool<MovieContext>(options => {
+            //options.UseModel(Cache.Movies_cache);
+            options.UseInMemoryDatabase("sunny");
+            });
+            services.AddScoped<IMovieRepositry, MovieRepository>();
+            services.AddScoped<ICreditRepository, CreditRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,11 +52,12 @@ namespace WhatFlix.Api
             else{
                 app.UseStatusCodePagesWithRedirects("/Error/StatusHandler");
             }
-
+            //app
             app.UseHttpsRedirection();
             //----------index.html-----------------
             app.UseDefaultFiles();
             app.UseStaticFiles();
+        
             //-------------------------------------
             
             

@@ -15,10 +15,11 @@ namespace WhatFlix.Api.Controllers
     public class MovieController : ControllerBase
     {
         private readonly ILogger<ErrorController> _logger;
-
-        public MovieController(ILogger<ErrorController> logger)
+        private IUnitOfWork unitOfWork;
+        public MovieController(ILogger<ErrorController> logger, IUnitOfWork ut)
         {
             _logger = logger;
+            unitOfWork = ut;
         }
         [HttpGet("users")]
         public JsonResult Get()
@@ -38,8 +39,8 @@ namespace WhatFlix.Api.Controllers
         {
             string val = text;
             Console.WriteLine(val);
-            var l = new WhatFlix.DataAccessLayer.MovieRepository(new DataAccessLayer.MovieContext("sds"));
-            return l.Get(text);
+            var l = new WhatFlix.Services.MovieService(unitOfWork);
+            return l.GetAllMovie(text);
             
             //return string.Format("user id = {0}, search string={1}",id, val);
         }

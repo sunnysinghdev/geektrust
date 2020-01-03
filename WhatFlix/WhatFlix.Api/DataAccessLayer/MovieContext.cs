@@ -1,71 +1,44 @@
 
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using CsvHelper;
 using WhatFlix.Api.Model;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
+using FileContextCore;
 
 namespace WhatFlix.DataAccessLayer
 {
     public class MovieContext : DbContext
     {
-        private string connectionString = "";
-        public static List<Movie> Movies_cache = new List<Movie>();
-        public static List<Credit> Credits_cache = new List<Credit>();
-        public List<Movie> Movies = new List<Movie>();
-        public List<Credit> Credits = new List<Credit>();
-        public MovieContext(string nameOrConnectionString) : base(nameOrConnectionString)
+        public DbSet<Movie> Movies {get; set;}
+        public DbSet<Credit> Credits {get; set;}
+        public MovieContext(DbContextOptions<MovieContext> options) : base(options)
         {
-            connectionString = nameOrConnectionString;
-            if (Movies_cache.Count > 1)
-            {
-                Movies = Movies_cache;
-                Credits = Credits_cache;
-            }
-            else
-            {
-                InitMovie();
-                InitCredits();
-            }
-        }
-        private void InitMovie()
-        {
-            using (var reader = new StreamReader("wwwroot/tmdb_5000_movies.csv"))
-            using (var csv = new CsvReader(reader))
-            {
-                //csv.Configuration.HasHeaderRecord = true;
-                var records = csv.GetRecords<Movie>();
-                foreach (var item in records)
-                {
 
-                    Movies.Add(item);
-                }
-            }
-            Movies_cache = Movies;
         }
-        private void InitCredits()
-        {
-            using (var reader = new StreamReader("wwwroot/tmdb_5000_credits.csv"))
-            using (var csv = new CsvReader(reader))
-            {
-                //csv.Configuration.HasHeaderRecord = true;
-                var records = csv.GetRecords<CreditParse>();
-                int i = 0;
-                foreach (var item in records)
-                {
-                    if (i > 3)
-                    {
-                        break;
-                    }
-                    var crews = JsonConvert.DeserializeObject<Crew[]>(item.Crew);
-                    var casts = JsonConvert.DeserializeObject<Cast[]>(item.Cast);
+        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        // {
+        
+        // }
 
-                    Credits.Add(new Credit { Id = item.Id, Title = item.Title, Casts = casts.ToList(), Crews = crews.ToList() });
-                }
-            }
-            Credits_cache = Credits;
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //var a = 5;
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Movie>().ToTable("Movies");
+            modelBuilder.Entity<Movie>().HasKey(p=> p.Id);
+        
+            modelBuilder.Entity<Credit>().ToTable("Credits");
+            modelBuilder.Entity<Credit>().HasKey(p => p.Id);
+            //modelBuilder.Entity<Credit>().HasMany(p => p);
+            //modelBuilder.Entity<Credit>().Property(p => p.Crews);
+        
+            modelBuilder.Entity<Movie>().HasData(Cache.Movies_cache);
+            modelBuilder.Entity<Credit>().HasData(Cache.Credits_cache);
+            //Movies.AddRange(Cache.Movies_cache);
+            
         }
     }
 }
